@@ -20,8 +20,6 @@ log() {
 
 log "=== Security Script Started ==="
 
-}
-
 log "Updating the system..."
 apt update -y
 apt upgrade -y
@@ -82,10 +80,6 @@ lynis --version || apt install -y lynis
 log "Running Lynis..."
 lynis audit system
 
-# Address vulnerabilities identified by Lynis
-log "Fixing vulnerabilities identified by Lynis..."
-lynis fix --test-all
-
 # Remove all .mp3 files (WARNING: Use with caution!)
 read -p "Do you want to remove all .mp3 files from the system? (y/n): " remove_mp3_choice
 if [ "$remove_mp3_choice" == "y" ]; then
@@ -118,20 +112,11 @@ else
     log "SSHD Service is already running."
 fi
 
-# 22) Install updates from important security updates
-log "Installing updates from important security updates..."
-apt-get install -y update
-software_sources="/etc/apt/sources.list"
-if grep -q "^#" "$software_sources"; then
-    log "Updating software sources..."
-    sed -i 's/^#//' "$software_sources"
-    log "Software sources updated."
-fi
 log "Configuring Software Updater settings..."
 echo "Please manually configure the Software Updater settings as described in the instructions."
 echo "Once configured, run 'sudo apt-get update && sudo apt-get upgrade' to install updates."
 
-# Insecure permissions on shadow file fixed
+# 23) Insecure permissions on shadow file fixed
 log "Checking permissions on the shadow file..."
 shadow_permissions=$(stat -c "%a" /etc/shadow)
 if [ "$shadow_permissions" != "640" ]; then
@@ -141,10 +126,6 @@ if [ "$shadow_permissions" != "640" ]; then
 else
     log "Permissions on the shadow file are already secure."
 fi
-
-log "Checking for bash exploit"
-env x='() { :;}; echo vulnerable' bash -c "echo end of test"
-
 
 log "=== Security Script Completed ==="
 
