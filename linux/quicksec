@@ -1,5 +1,12 @@
 #!/bin/bash
 
+#################################################################################
+# Review script's comments "#" if you want to apply any other best practices     
+# to your system, uncomment.  Want to better this or recommend fixes? Submit
+# a pull request or email PoC above.
+#
+#################################################################################
+
 #Check if script is running with root permissions
 if [[ $UID != "0" ]]; then
   echo "Sorry, must sudo or be root to run this."
@@ -581,5 +588,5 @@ fi
 
 echo ""
 echo "WARNING!WARNING!WARNING!"
-echo "CHANGE ROOT'S PASSWORD AFTER RUNNING QUICK SECURE SCRIPT, JUST IN CASE."
+echo "CHANGE ROOT'S PASSWORD AFTER RUNNING QUICK NIX SECURE SCRIPT, JUST IN CASE."
 echo "WARNING!WARNING!WARNING!"
